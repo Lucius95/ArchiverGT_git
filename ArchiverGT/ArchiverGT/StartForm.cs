@@ -57,6 +57,7 @@ namespace ArchiverGT
         {
             labelPercent.Text = "" + Obmen.ProgressPercent + " %";
             ProgressArchiving.Value = Obmen.ProgressPercent;
+            AppConsole.WriteLog();
 
             if (A.Flag_Stop == 1)
             {
@@ -67,6 +68,10 @@ namespace ArchiverGT
                 UnzipBotton.Enabled = true;
             }
         }
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            AppConsole2.Print_Console();
+        }
 
         private void OpenButton_Click(object sender, EventArgs e)
         {
@@ -76,27 +81,6 @@ namespace ArchiverGT
             textBox1.Text = openFileDialog1.FileName;
 
             A = new Archiving();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            AppConsole.WriteLog();
-        }
-
-        private void UnzipBotton_Click(object sender, EventArgs e)
-        {
-            if (A != null)
-            {
-                if (A.Flag_Start == 0)
-                {
-                    var VarThread = new Thread(A.ArcMethod_Decompress_GZip_Custom);
-                    VarThread.IsBackground = true;
-                    VarThread.Start();
-                    timer1.Start();
-                    timer2.Start();
-                    UnzipBotton.Enabled = true;
-                }
-            }   
         }
 
         private void ArchBotton_Click(object sender, EventArgs e)
@@ -115,11 +99,21 @@ namespace ArchiverGT
             }
         }
 
-        private void timer2_Tick(object sender, EventArgs e)
+        private void UnzipBotton_Click(object sender, EventArgs e)
         {
-            AppConsole2.Print_Console();
+            if (A != null)
+            {
+                if (A.Flag_Start == 0)
+                {
+                    var VarThread = new Thread(A.ArcMethod_Decompress_GZip_Custom);
+                    VarThread.IsBackground = true;
+                    VarThread.Start();
+                    timer1.Start();
+                    timer2.Start();
+                    UnzipBotton.Enabled = true;
+                }
+            }   
         }
-
     }
 
     class Archiving
@@ -160,9 +154,6 @@ namespace ArchiverGT
 
         public void LockField_FileStream_Compressed()
         {
-            int flag_finish = 0;
-            int Count_Compress_File = 1;
-
             while (Flag_Stop != 1)
             {
                 try
