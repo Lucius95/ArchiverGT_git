@@ -1,0 +1,10 @@
+D:\C#\Project\ArchiverGT\ArchiverGT\bin\Debug\ArchiverGT.exe.config
+D:\C#\Project\ArchiverGT\ArchiverGT\bin\Debug\ArchiverGT.exe
+D:\C#\Project\ArchiverGT\ArchiverGT\bin\Debug\ArchiverGT.pdb
+D:\C#\Project\ArchiverGT\ArchiverGT\obj\Debug\ArchiverGT.Properties.Resources.resources
+D:\C#\Project\ArchiverGT\ArchiverGT\obj\Debug\ArchiverGT.StartForm.resources
+D:\C#\Project\ArchiverGT\ArchiverGT\obj\Debug\ArchiverGT.csproj.GenerateResource.cache
+D:\C#\Project\ArchiverGT\ArchiverGT\obj\Debug\ArchiverGT.csproj.CoreCompileInputs.cache
+D:\C#\Project\ArchiverGT\ArchiverGT\obj\Debug\ArchiverGT.exe
+D:\C#\Project\ArchiverGT\ArchiverGT\obj\Debug\ArchiverGT.pdb
+D:\C#\Project\ArchiverGT\ArchiverGT\obj\Debug\ArchiverGT.csprojAssemblyReference.cache
