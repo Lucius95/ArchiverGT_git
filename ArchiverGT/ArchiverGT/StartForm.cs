@@ -20,7 +20,8 @@ namespace ArchiverGT
     public partial class StartForm : Form
     {
 
-        Archiving A;
+        Archiving A = null;
+        Point LastPoint;
 
         public StartForm()
         {
@@ -28,7 +29,6 @@ namespace ArchiverGT
             this.Icon = Properties.Resources.Icon;
         }  
 
-        Point LastPoint;
         private void panel1_MouseMove(object sender, MouseEventArgs e)
         {
             if(e.Button == MouseButtons.Left)
@@ -41,21 +41,6 @@ namespace ArchiverGT
         private void panel1_MouseDown(object sender, MouseEventArgs e)
         {
             LastPoint = new Point(e.X, e.Y);
-        }
-
-        private void ClosseButton_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void ClosseButton_MouseEnter(object sender, EventArgs e)
-        {
-            ClosseButton.ForeColor = Color.FromArgb(57, 70, 70);
-        }
-
-        private void ClosseButton_MouseLeave(object sender, EventArgs e)
-        {
-            ClosseButton.ForeColor = Color.White;
         }
 
         private void OpenButton_MouseEnter(object sender, EventArgs e)
@@ -100,27 +85,33 @@ namespace ArchiverGT
 
         private void UnzipBotton_Click(object sender, EventArgs e)
         {
-            if (A.Flag_Start == 0)
+            if (A != null)
             {
-                var VarThread = new Thread(A.ArcMethod_Decompress_GZip_Custom);
-                VarThread.IsBackground = true;
-                VarThread.Start();
-                timer1.Start();
-                timer2.Start();
-                UnzipBotton.Enabled = true;
+                if (A.Flag_Start == 0)
+                {
+                    var VarThread = new Thread(A.ArcMethod_Decompress_GZip_Custom);
+                    VarThread.IsBackground = true;
+                    VarThread.Start();
+                    timer1.Start();
+                    timer2.Start();
+                    UnzipBotton.Enabled = true;
+                }
             }   
         }
 
         private void ArchBotton_Click(object sender, EventArgs e)
         {
-            if (A.Flag_Start == 0)
+            if (A != null)
             {
-                var VarThread = new Thread(A.Gain_Thread);
-                VarThread.IsBackground = true;
-                VarThread.Start();
-                timer1.Start();
-                timer2.Start();
-                ArchBotton.Enabled = false;
+                if (A.Flag_Start == 0)
+                {
+                    var VarThread = new Thread(A.Gain_Thread);
+                    VarThread.IsBackground = true;
+                    VarThread.Start();
+                    timer1.Start();
+                    timer2.Start();
+                    ArchBotton.Enabled = false;
+                }
             }
         }
 
