@@ -8,3 +8,13 @@ D:\C#\Project\ArchiverGT\ArchiverGT\obj\Debug\ArchiverGT.csproj.CoreCompileInput
 D:\C#\Project\ArchiverGT\ArchiverGT\obj\Debug\ArchiverGT.exe
 D:\C#\Project\ArchiverGT\ArchiverGT\obj\Debug\ArchiverGT.pdb
 D:\C#\Project\ArchiverGT\ArchiverGT\obj\Debug\ArchiverGT.csprojAssemblyReference.cache
+C:\Users\З\Documents\ArchiverGT_git\ArchiverGT\ArchiverGT\bin\Debug\ArchiverGT.exe.config
+C:\Users\З\Documents\ArchiverGT_git\ArchiverGT\ArchiverGT\bin\Debug\ArchiverGT.exe
+C:\Users\З\Documents\ArchiverGT_git\ArchiverGT\ArchiverGT\bin\Debug\ArchiverGT.pdb
+C:\Users\З\Documents\ArchiverGT_git\ArchiverGT\ArchiverGT\obj\Debug\ArchiverGT.csprojAssemblyReference.cache
+C:\Users\З\Documents\ArchiverGT_git\ArchiverGT\ArchiverGT\obj\Debug\ArchiverGT.Properties.Resources.resources
+C:\Users\З\Documents\ArchiverGT_git\ArchiverGT\ArchiverGT\obj\Debug\ArchiverGT.StartForm.resources
+C:\Users\З\Documents\ArchiverGT_git\ArchiverGT\ArchiverGT\obj\Debug\ArchiverGT.csproj.GenerateResource.cache
+C:\Users\З\Documents\ArchiverGT_git\ArchiverGT\ArchiverGT\obj\Debug\ArchiverGT.csproj.CoreCompileInputs.cache
+C:\Users\З\Documents\ArchiverGT_git\ArchiverGT\ArchiverGT\obj\Debug\ArchiverGT.exe
+C:\Users\З\Documents\ArchiverGT_git\ArchiverGT\ArchiverGT\obj\Debug\ArchiverGT.pdb
