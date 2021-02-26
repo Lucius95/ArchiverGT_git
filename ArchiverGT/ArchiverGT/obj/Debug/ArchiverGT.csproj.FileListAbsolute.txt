@@ -17,4 +17,3 @@ C:\Users\З\Documents\ArchiverGT_git\ArchiverGT\ArchiverGT\obj\Debug\ArchiverGT.
 C:\Users\З\Documents\ArchiverGT_git\ArchiverGT\ArchiverGT\obj\Debug\ArchiverGT.csproj.CoreCompileInputs.cache
 C:\Users\З\Documents\ArchiverGT_git\ArchiverGT\ArchiverGT\obj\Debug\ArchiverGT.exe
 C:\Users\З\Documents\ArchiverGT_git\ArchiverGT\ArchiverGT\obj\Debug\ArchiverGT.pdb
-C:\Users\З\Documents\ArchiverGT_git\ArchiverGT\ArchiverGT\obj\Debug\ArchiverGT.csprojAssemblyReference.cache

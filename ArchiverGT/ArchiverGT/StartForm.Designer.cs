@@ -35,7 +35,6 @@ namespace ArchiverGT
             this.UnzipBotton = new ArchiverGT.Controls.CustBotton();
             this.ArchBotton = new ArchiverGT.Controls.CustBotton();
             this.labelPercent = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             this.ProgressArchiving = new System.Windows.Forms.ProgressBar();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.OpenButton = new System.Windows.Forms.PictureBox();
@@ -53,7 +52,6 @@ namespace ArchiverGT
             this.panel1.Controls.Add(this.UnzipBotton);
             this.panel1.Controls.Add(this.ArchBotton);
             this.panel1.Controls.Add(this.labelPercent);
-            this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.ProgressArchiving);
             this.panel1.Controls.Add(this.textBox1);
             this.panel1.Controls.Add(this.OpenButton);
@@ -76,7 +74,6 @@ namespace ArchiverGT
             this.textBox2.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
             this.textBox2.Size = new System.Drawing.Size(354, 131);
             this.textBox2.TabIndex = 15;
-            Console = this.textBox2;
             // 
             // UnzipBotton
             // 
@@ -109,16 +106,6 @@ namespace ArchiverGT
             this.labelPercent.Size = new System.Drawing.Size(33, 16);
             this.labelPercent.TabIndex = 11;
             this.labelPercent.Text = "0 %";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(255, 264);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "LOG";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // ProgressArchiving
             // 
@@ -185,7 +172,6 @@ namespace ArchiverGT
         private System.Windows.Forms.ProgressBar ProgressArchiving;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label labelPercent;
         private Controls.CustBotton ArchBotton;
         private Controls.CustBotton UnzipBotton;
