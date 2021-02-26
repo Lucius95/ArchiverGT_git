@@ -37,7 +37,6 @@ namespace ArchiverGT
             this.labelPercent = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.ProgressArchiving = new System.Windows.Forms.ProgressBar();
-            this.ClosseButton = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.OpenButton = new System.Windows.Forms.PictureBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
@@ -56,7 +55,6 @@ namespace ArchiverGT
             this.panel1.Controls.Add(this.labelPercent);
             this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.ProgressArchiving);
-            this.panel1.Controls.Add(this.ClosseButton);
             this.panel1.Controls.Add(this.textBox1);
             this.panel1.Controls.Add(this.OpenButton);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -78,6 +76,7 @@ namespace ArchiverGT
             this.textBox2.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
             this.textBox2.Size = new System.Drawing.Size(354, 131);
             this.textBox2.TabIndex = 15;
+            Console = this.textBox2;
             // 
             // UnzipBotton
             // 
@@ -128,21 +127,6 @@ namespace ArchiverGT
             this.ProgressArchiving.Size = new System.Drawing.Size(325, 23);
             this.ProgressArchiving.TabIndex = 8;
             // 
-            // ClosseButton
-            // 
-            this.ClosseButton.AutoSize = true;
-            this.ClosseButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ClosseButton.ForeColor = System.Drawing.SystemColors.Window;
-            this.ClosseButton.Location = new System.Drawing.Point(352, 3);
-            this.ClosseButton.Name = "ClosseButton";
-            this.ClosseButton.Size = new System.Drawing.Size(25, 24);
-            this.ClosseButton.TabIndex = 3;
-            this.ClosseButton.Text = "X";
-            this.ClosseButton.Visible = false;
-            this.ClosseButton.Click += new System.EventHandler(this.ClosseButton_Click);
-            this.ClosseButton.MouseEnter += new System.EventHandler(this.ClosseButton_MouseEnter);
-            this.ClosseButton.MouseLeave += new System.EventHandler(this.ClosseButton_MouseLeave);
-            // 
             // textBox1
             // 
             this.textBox1.Location = new System.Drawing.Point(72, 304);
@@ -191,7 +175,6 @@ namespace ArchiverGT
             ((System.ComponentModel.ISupportInitialize)(this.OpenButton)).EndInit();
             this.ResumeLayout(false);
 
-            Console = this.textBox2;
         }
 
         #endregion
@@ -199,7 +182,6 @@ namespace ArchiverGT
         private System.Windows.Forms.PictureBox OpenButton;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label ClosseButton;
         private System.Windows.Forms.ProgressBar ProgressArchiving;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
