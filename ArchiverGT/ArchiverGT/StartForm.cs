@@ -27,6 +27,7 @@ namespace ArchiverGT
         {
             InitializeComponent();
             this.Icon = Properties.Resources.Icon;
+            Log objLog = new Log();
         }  
 
         private void panel1_MouseMove(object sender, MouseEventArgs e)
@@ -57,7 +58,6 @@ namespace ArchiverGT
         {
             labelPercent.Text = "" + Obmen.ProgressPercent + " %";
             ProgressArchiving.Value = Obmen.ProgressPercent;
-            AppConsole.WriteLog();
 
             if (A.Flag_Stop == 1)
             {
@@ -166,9 +166,9 @@ namespace ArchiverGT
                         Byte_Priority_Compression++;
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
-
+                    //Log.WriteLog(ex.Message);
                 }
             }
         }
@@ -208,7 +208,7 @@ namespace ArchiverGT
             }
             catch (Exception ex)
             {
-                AppConsole.Console_Byte(ex.Message);
+                Log.WriteLog(ex.Message);
             }    
         }
 
@@ -249,9 +249,106 @@ namespace ArchiverGT
                 }
                 catch (Exception ex)
                 {
-                    AppConsole.Console_Byte(ex.Message);
+                    Log.WriteLog(ex.Message);
                 }
             }
+        }
+
+        public void ArcMethod_Decompress_GZip_Custom()
+        {
+            byte[] ByteArr = new byte[1000000];
+            byte[] ByteArr2 = new byte[1000000];
+            string Format;
+            int Read = 0;
+            int Read2 = 0;
+            MemoryStream Part2;
+
+            CompressedFile2 = SourceFile.Split(new string[] { Path.GetExtension(Obmen.Source_FilePath) }, StringSplitOptions.RemoveEmptyEntries);
+            CompressedFile = SourceFile;
+            TargetFile = CompressedFile2[0];
+
+            var sw = new Stopwatch();
+            Obmen.Sw_Obmen = sw;
+            sw.Start();
+
+            try
+            {
+                using (FileStream source_stream = new FileStream(CompressedFile, FileMode.Open, FileAccess.Read))
+                {
+                    int size = 0;
+                    byte[] bytes_inf0 = new byte[4];
+                    byte[] bytes_inf1 = new byte[10];
+                    byte[] bytes_inf2 = new byte[4];
+                    byte[] bytes_inf3 = new byte[7];
+
+                    source_stream.Read(bytes_inf0, 0, 1);
+                    size = BitConverter.ToInt32(bytes_inf0, 0);
+
+                    source_stream.Read(bytes_inf1, 0, 4);
+                    Format = Encoding.UTF8.GetString(bytes_inf1, 0, 4);
+                    TargetFile += Format;
+
+                    //source_stream.Position = 10;
+                    source_stream.Read(bytes_inf2, 0, 4);
+                    CountFile = BitConverter.ToInt32(bytes_inf2, 0);
+                    //Log.WriteLog("CountFile " + CountFile);
+
+                    for (int i = 0; i < CountFile; i++)
+                    {
+                        source_stream.Read(bytes_inf3, 0, 4);
+                        SizeFile[i] = BitConverter.ToInt32(bytes_inf3, 0);
+                        //AppConsole.Console_Byte("SizeFile " + SizeFile[i]);
+                    }
+
+                    source_stream.Position = 10 + 4 + 4 * 1000000;
+
+                    Log.WriteLog("Разархивирование GZip");
+
+                    //Поток для записи востановленнго файла
+                    using (FileStream target_stream = File.Create(TargetFile))
+                    {
+                        for (int j = 0; j < CountFile; j++)
+                        {
+                            ByteArr = new byte[1200000];
+                            ByteArr2 = new byte[1200000];
+                            Part2 = new MemoryStream();
+                            using (MemoryStream Part = new MemoryStream())
+                            {
+                                Read = source_stream.Read(ByteArr, 0, SizeFile[j]);
+                                Part.Write(ByteArr, 0, Read);
+                                Part.Position = 0;
+                                //Log.WriteLog("Размер Orig - " + SizeFile[j]);
+                                //Log.WriteLog("Размер Part - " + Part.Length);
+
+                                using (GZipStream decompression_stream = new GZipStream(Part, CompressionMode.Decompress))
+                                {
+                                    //Log.WriteLog("Посылка " + j);
+                                    decompression_stream.CopyTo(Part2);
+                                    Part2.Position = 0;
+                                    //Log.WriteLog("Размер Part2 - " + Part2.Length);
+                                    Read2 = Part2.Read(ByteArr2, 0, (int)Part2.Length);
+                                    target_stream.Write(ByteArr2, 0, Read2);
+                                    Obmen.ProgressPercent = (int)((100 * j) / (CountFile - 1));
+                                }
+                            }
+                        }
+
+                        //Завершение разархивирования
+                        Flag_Stop = 1;
+                    }
+
+                }
+
+                Log.WriteLog("Файл разархивирован");
+            }
+            catch (Exception ex)
+            {
+                Log.WriteLog(ex.Message);
+            }
+
+            sw.Stop();
+            Obmen.Time1 = Convert.ToString(sw.ElapsedMilliseconds);
+            Log.WriteLog("Время " + Obmen.Time1);
         }
 
         public void Gain_Thread()
@@ -268,7 +365,7 @@ namespace ArchiverGT
             }
             catch (Exception ex)
             {
-                AppConsole.Console_Byte(ex.Message);
+                Log.WriteLog(ex.Message);
             }
             Obmen.Lenght_Source = source_stream.Length;
             SumPackages = (int)(Obmen.Lenght_Source / 1000000);
@@ -285,7 +382,7 @@ namespace ArchiverGT
             VarThread.IsBackground = true;
             VarThread.Start();
 
-            AppConsole.Console_Byte("Архивирование началось");
+            Log.WriteLog("Архивирование началось");
 
             VarThread = new Thread(this.LockField_Compressed);
             VarThread.IsBackground = true;
@@ -335,8 +432,8 @@ namespace ArchiverGT
 
                     sw.Stop();
                     Obmen.Time1 = Convert.ToString(sw.ElapsedMilliseconds);
-                    AppConsole.Console_Byte("Архивирование закончено");
-                    AppConsole.Console_Byte("Время " + Obmen.Time1);
+                    Log.WriteLog("Архивирование закончено");
+                    Log.WriteLog("Время " + Obmen.Time1);
                     FlagShowTime = 0;
                     flag_finish = 1;
                     Flag_Stop = 1;
@@ -349,106 +446,6 @@ namespace ArchiverGT
                     target_stream = null;
                 }
             }
-        }
-
-        public void ArcMethod_Decompress_GZip_Custom()
-        {
-            byte[] ByteArr = new byte[1000000];
-            byte[] ByteArr2 = new byte[1000000];
-            string Format;
-            int Read = 0;
-            int Read2 = 0;
-            MemoryStream Part2;
-
-            CompressedFile2 = SourceFile.Split(new string[] { Path.GetExtension(Obmen.Source_FilePath) }, StringSplitOptions.RemoveEmptyEntries);
-            CompressedFile = SourceFile;
-            TargetFile = CompressedFile2[0];
-
-            var sw = new Stopwatch();
-            sw.Start();
-
-            try
-            {
-                using (FileStream source_stream = new FileStream(CompressedFile, FileMode.Open, FileAccess.Read))
-                {
-                    int size = 0;
-                    byte[] bytes_inf0 = new byte[4];
-                    byte[] bytes_inf1 = new byte[10];
-                    byte[] bytes_inf2 = new byte[4];
-                    byte[] bytes_inf3 = new byte[7];
-
-                    AppConsole.Console_Byte("1 ");
-                    source_stream.Read(bytes_inf0, 0, 1);
-                    AppConsole.Console_Byte("2 ");
-                    size = BitConverter.ToInt32(bytes_inf0, 0);
-                    AppConsole.Console_Byte("3 ");
-
-                    source_stream.Read(bytes_inf1, 0, 4);
-                    Format = Encoding.UTF8.GetString(bytes_inf1, 0, 4);
-                    AppConsole.Console_Byte("Format " + Format);
-                    TargetFile += Format;
-
-                    //source_stream.Position = 10;
-                    source_stream.Read(bytes_inf2, 0 , 4);
-                    CountFile = BitConverter.ToInt32(bytes_inf2, 0);
-                    AppConsole.Console_Byte("CountFile " + CountFile);
-
-                    for (int i=0; i< CountFile; i++)
-                    {
-                        source_stream.Read(bytes_inf3, 0, 4);
-                        SizeFile[i] = BitConverter.ToInt32(bytes_inf3, 0);
-                        //AppConsole.Console_Byte("SizeFile " + SizeFile[i]);
-                    }
-
-                    source_stream.Position = 10 + 4 + 4 * 1000000;
-
-                    AppConsole.Console_Byte("Разархивирование GZip");
-
-                    //Поток для записи востановленнго файла
-                    using (FileStream target_stream = File.Create(TargetFile))
-                    {
-                        for (int j = 0; j < CountFile; j++)
-                        {
-                            ByteArr = new byte[1200000];
-                            ByteArr2 = new byte[1200000];
-                            Part2 = new MemoryStream();
-                            using (MemoryStream Part = new MemoryStream())
-                            {
-                                Read = source_stream.Read(ByteArr, 0, SizeFile[j]);
-                                Part.Write(ByteArr, 0, Read);
-                                Part.Position = 0;
-                                AppConsole.Console_Byte("Размер Orig - " + SizeFile[j]);
-                                AppConsole.Console_Byte("Размер Part - " + Part.Length);
-
-                                using (GZipStream decompression_stream = new GZipStream(Part, CompressionMode.Decompress))
-                                {
-                                    AppConsole.Console_Byte("Посылка " + j);
-                                    decompression_stream.CopyTo(Part2);
-                                    Part2.Position = 0;
-                                    AppConsole.Console_Byte("Размер Part2 - " + Part2.Length);
-                                    Read2 = Part2.Read(ByteArr2, 0, (int)Part2.Length);
-                                    target_stream.Write(ByteArr2, 0, Read2);
-                                    Obmen.ProgressPercent = (int)((100 * j) / (CountFile-1));
-                                }
-                            }
-                        }
-
-                        //Завершение разархивирования
-                        Flag_Stop = 1;
-                    }
-
-                }
-
-                AppConsole.Console_Byte("Файл разархивирован");
-            }
-            catch (Exception ex)
-            {
-                AppConsole.Console_Byte(ex.Message);
-            }
-
-            sw.Stop();
-            Obmen.Time1 = Convert.ToString(sw.ElapsedMilliseconds);
-            AppConsole.Console_Byte("Время " + Obmen.Time1);
         }
     }
 
@@ -485,60 +482,34 @@ namespace ArchiverGT
         //}
     }
 
-    class AppConsole
+    class Log
     {
-
-        public static string GeneralArrStr = "";
-        public static string ReadArrStr = "";
-
-        //Печать в консоль построчно (с переходим на новую строку):
-        public static void Console_Line(object txt)
+        //Конструктор
+        public Log()
         {
-            //MyForm.TxtConsole.AppendText(txt + "");
-            //MyForm.TxtConsole.Text = txt + "";
-        }
-
-        //Заполнение массива на вывод:
-        public static void Console_Byte(object txt)
-        {
-            GeneralArrStr = GeneralArrStr + txt + "\r" + "\n";
-        }
-
-        //Запись  в лог файл
-        public static void WriteLog()
-        {
-            string writePath = "Log.txt";
-
-            try
+            //Создание нового лог файла
+            using (FileStream fs = new FileStream("Log.txt", FileMode.Create, FileAccess.Write))
             {
-                using (StreamWriter sw = new StreamWriter(writePath, false, System.Text.Encoding.Default))
-                {
-                    sw.WriteLine(GeneralArrStr);
-                }
-            }
-            catch (Exception ex)
-            {
-                AppConsole.Console_Byte(ex.Message);
+                using (StreamWriter sw = new StreamWriter(fs)) { }
             }
         }
 
         //Запись  в лог файл
-        public static void WriteLog2(string str)
+        public static void WriteLog(string str)
         {
-            string writePath = "Log2.txt";
-
             try
             {
-                using (StreamWriter sw = new StreamWriter(writePath, true, System.Text.Encoding.Default))
+                using (StreamWriter sw = new StreamWriter("Log.txt", true, System.Text.Encoding.Default))
                 {
-                    sw.WriteLine("///////////////////////////////");
-                    sw.WriteLine("///////////////////////////////");
                     sw.WriteLine(str);
                 }
             }
             catch (Exception ex)
             {
-                AppConsole.Console_Byte(ex.Message);
+                using (StreamWriter sw = new StreamWriter("Log.txt", true, System.Text.Encoding.Default))
+                {
+                    sw.WriteLine(ex.Message);
+                }
             }
         }
     }

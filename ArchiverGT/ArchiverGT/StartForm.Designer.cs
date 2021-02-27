@@ -74,6 +74,7 @@ namespace ArchiverGT
             this.textBox2.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
             this.textBox2.Size = new System.Drawing.Size(354, 131);
             this.textBox2.TabIndex = 15;
+            Console = this.textBox2;
             // 
             // UnzipBotton
             // 
